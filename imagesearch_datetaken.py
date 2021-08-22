@@ -7,7 +7,6 @@ def get_date_taken(path):
     except:
         return False
 
-
 def main():
     while True:
         fp = input("Folder path:")
@@ -23,4 +22,5 @@ def main():
         again = input("Look again? (y/n):")
         if (again != "y"):
             break
+
 main()
