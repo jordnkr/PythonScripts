@@ -1,22 +1,25 @@
 import os
 from PIL import Image
-from pathlib import Path
 
 def get_date_taken(path):
-    return Image.open(path)._getexif()[36867]
+    try:
+        return Image.open(path)._getexif()[36867]
+    except:
+        return False
+
 
 def main():
     while True:
         fp = input("Folder path:")
-        #dt = input("Date Taken:")
+        dt = input("Date Taken (YYYY:MM:DD):")
         for root, dirs, files in os.walk(fp):
-            path = root.split(os.sep)
-            #print((len(path) - 1) * '---', os.path.basename(root))
             for file in files:
-                #print(len(path) * '---', os.path.join(root, file))
-                fullFile = os.path.join(root, file)
-                if (fullFile.endswith('.jpg')):
-                    print(fullFile) 
+                full_path = os.path.join(root, file)
+                if (full_path.lower().endswith(('.jpg', '.jpeg'))):
+                    date_taken = get_date_taken(full_path)
+                    if date_taken:
+                        if (dt == date_taken.split(" ")[0]):
+                            print(full_path)
         again = input("Look again? (y/n):")
         if (again != "y"):
             break
